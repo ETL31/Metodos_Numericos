@@ -1,0 +1,184 @@
+>>  %MATRIZ INVERSA
+fprintf('Se tiene la matriz A de dimensión nxn');
+fprintf('Hallaremos su inversa');
+n = input('Ingrese el tamaño de n: '); 
+reiniciar=n;
+x=2;
+acu=0;
+y=n-1;
+dec=n;
+mov=n-1;
+a=1;
+b=1;
+fila=1;
+f=1;
+d=1;
+e=1;
+au=n-1;
+in=1;
+columna=2;
+repeticiones=0;
+repeticiones2=0;
+lim=n;
+dar=1;
+
+   %VARIABLES PARA SOLUCIONAR EL ERROR DEL CERO
+temporal=0;
+menor=1;
+np=n;
+paratod=n;
+increm=1;
+parcon=0;
+temporaliden=0;
+
+    %LA MATRIZ A es:
+for i = 1 : n 
+for j = 1 : n
+s = ['A (' num2str(i) ', ' num2str(j) '): ']; 
+A(i, j) = input(s); 
+end 
+end 
+A
+    %GENERAMOS LA MATRIZ IDENTIDAD
+for i = 1 : n 
+for j = 1 : n
+if(i==j)
+I(i, j) =1; 
+else
+I(i, j) =0;   
+end
+
+end 
+end 
+I
+    %MATRIZ AUMENTADA
+B=[A I];
+B
+
+
+   %CALCULAMOS LA DETERMINANTE
+fprintf('determinante: %5.5f\n',det(A))%con 5 enteros y 5 decimales flotantes
+
+   %PROCESO PARA CAMBIAR FILAS Y EVITAR INDETERMINACIONES
+if(det(A)~=0)
+
+while (menor<=np)
+for i = 1 : np 
+for j = 1 : np
+    
+if((i==j)&&(i>parcon)&&(j>parcon))
+n=np;
+end
+
+ if((i==j)&&(A(i,j)==0))
+     for indar=1: np
+     temporal=A(i,:);
+     A(i,:)=A(n,:);
+     A(n,:)=temporal;
+     
+     temporaliden=I(i,:);
+     I(i,:)=I(n,:);
+     I(n,:)=temporaliden; 
+     
+     end
+     B=[A I];
+     B
+ end 
+ if((i==j)&&(i<parcon)&&(j<parcon))
+  n=n+1;  
+end
+end 
+
+end
+
+n=np-increm;
+increm=increm+1;
+menor=menor+1;
+parcon=parcon+1;
+end
+n=reiniciar;
+
+  %FIN DE CAMBIO DE FILAS
+B=[A I];
+B
+
+  %PROCESO DE GAUSS
+disp('GENERANDO CEROS EN LA MATRIZ "A" CONVIRTIENDOLA EN UNA TRIANGULAR INFERIOR')
+while(a<=n)
+for i = a : n
+for j = b : n
+    
+   
+    if(i==fila)
+        I(fila,:)=I(fila,:)/A(fila,fila);
+        A(fila,:)=A(fila,:)/A(fila,fila);       
+    end
+    
+    if(i==x)
+        I(x,:)=I(x,:)-(I(a,:)*A(x,fila)); 
+        A(x,:)=A(x,:)-(A(a,:)*A(x,fila)); 
+    end
+   
+ repeticiones=repeticiones+1;
+end
+   if(i==f)
+       x=f;
+   end    
+   
+B=[A I];
+B
+x=x+1;
+  
+end
+    if (i==n&&j==n)
+       
+         a=a+1;
+         b=b+1;
+         fila=fila+1;
+         x=b+1;
+         i=i+1;      
+     end
+end
+n=reiniciar;
+
+  disp('GENERANDO CEROS EN LA MATRIZ "A" CONVIRTIENDOLA EN UNA TRIANGULAR SUPERIOR')
+while(0<n)
+for i =n :-1: 1
+for j =n :-1: 1
+     
+     if((i-1)==y)
+        I(y,:)=I(y,:)-(I(dec,:)*A(y,dec));  
+        A(y,:)=A(y,:)-(A(dec,:)*A(y,dec)); 
+     end
+   repeticiones2=repeticiones2+1; 
+  acu=j;
+end
+
+B=[A I];
+B
+y=y-1;
+
+if(y==0)
+    n=0;
+end
+end
+n=lim-dar;
+    if (i==1&&acu==1)
+        
+        dar=dar+1;
+        dec=dec-1;
+        au=au-1;
+        y=au;    
+    end
+    if(au==0)
+        n=0;
+    end
+end
+% AQUI VA REPETICIONES 1 Y 2
+
+else 
+disp('NO EXISTE LA MATRIZ INVERSA');
+end    
+disp('SU MATRIZ FINAL ES:');
+B=[A I];
+B  

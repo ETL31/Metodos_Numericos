@@ -1,0 +1,178 @@
+%MATRIZ INVERSA PASO A PASO
+ren = input('Tamaño n: '); 
+reiniciar=ren;
+x=2;
+acu=0;
+y=ren-1;
+dec=ren;
+mov=ren-1;
+a=1;
+b=1;
+fila=1;
+i=1;
+d=1;
+e=1;
+au=ren-1;
+in=1;
+columna=2;
+repeticiones=0;
+repeticiones2=0;
+lim=ren;
+dar=1;
+% variables para solucionar problemas con el cero
+temporal=0;
+menor=1;
+np=ren;
+paratod=ren;
+increm=1;
+parcon=0;
+temporaliden=0;
+% para generar la matriz
+for r = 1 : ren 
+for c = 1 : ren
+s = ['Dato (' num2str(r) ', ' num2str(c) '): ']; 
+m(r, c) = input(s); 
+end 
+end 
+m
+% para generar la matriz identidad
+for r = 1 : ren 
+for c = 1 : ren
+if(r==c)
+n(r, c) =1; 
+else
+n(r, c) =0;   
+end
+
+end 
+end 
+n
+% para generar la matriz aumentada
+o=[m n];
+o
+
+
+% para calcular la determinante
+fprintf('determinante: %5.2f\n',det(m))
+% PROCESO PARA CAMBIAR FILAS Y EVITAR INDETERMINACIONES
+if(det(m)~=0)
+
+while (menor<=np)
+for r = 1 : np 
+for c = 1 : np
+    
+if((r==c)&&(r>parcon)&&(c>parcon))
+ren=np;
+end
+
+ if((r==c)&&(m(r,c)==0))
+     for indar=1: np
+     temporal=m(r,:);
+     m(r,:)=m(ren,:);
+     m(ren,:)=temporal;
+     
+     temporaliden=n(r,:);
+     n(r,:)=n(ren,:);
+     n(ren,:)=temporaliden; 
+     
+     end
+     o=[m n];
+     o
+ end 
+ if((r==c)&&(r<parcon)&&(c<parcon))
+  ren=ren+1;  
+end
+end 
+
+end
+
+ren=np-increm;
+increm=increm+1;
+menor=menor+1;
+parcon=parcon+1;
+end
+ren=reiniciar;
+
+% HASTA AQUI PARA CAMBIAR FILAS
+o=[m n];
+o
+% PROCESO PARA CONSEGUIR LA MITAD DE LA FUNCION INVERSA
+disp('Proceso para diagonal inferior')
+while(a<=ren)
+for r = a : ren
+for c = b : ren
+    
+   
+    if(r==fila)
+        n(fila,:)=n(fila,:)/m(fila,fila);
+        m(fila,:)=m(fila,:)/m(fila,fila);       
+    end
+    
+    if(r==x)
+        n(x,:)=n(x,:)-(n(a,:)*m(x,fila)); 
+        m(x,:)=m(x,:)-(m(a,:)*m(x,fila)); 
+    end
+   
+ repeticiones=repeticiones+1;
+end
+   if(r==i)
+       x=i;
+   end    
+   
+o=[m n];
+o
+x=x+1;
+  
+end
+    if (r==ren&&c==ren)
+       
+         a=a+1;
+         b=b+1;
+         fila=fila+1;
+         x=b+1;
+         i=i+1;      
+     end
+end
+ren=reiniciar;
+% PROCESO PARA COMPLETAR LA MATRIZ INVERSA
+  disp('para diagonal superior')
+while(0<ren)
+for r =ren :-1: 1
+for c =ren :-1: 1
+     
+     if((r-1)==y)
+        n(y,:)=n(y,:)-(n(dec,:)*m(y,dec));  
+        m(y,:)=m(y,:)-(m(dec,:)*m(y,dec)); 
+     end
+   repeticiones2=repeticiones2+1; 
+  acu=c;
+end
+
+o=[m n];
+o
+y=y-1;
+
+if(y==0)
+    ren=0;
+end
+end
+ren=lim-dar;
+    if (r==1&&acu==1)
+        
+        dar=dar+1;
+        dec=dec-1;
+        au=au-1;
+        y=au;    
+    end
+    if(au==0)
+        ren=0;
+    end
+end
+% AQUI VA REPETICIONES 1 Y 2
+
+else 
+disp('NO EXISTE LA MATRIZ INVERSA');
+end    
+disp('SU MATRIZ FINAL ES:');
+o=[m n];
+o   

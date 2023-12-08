@@ -1,0 +1,22 @@
+A=input('Matriz: ');
+[n m]=size(A);
+Al=A(1,1);
+p=1;
+for i=2:n
+  A(1:i,1:i)
+  b=det(A(1:i,1:i))
+  if b<0
+      p=-1;
+      break
+  end
+  
+end
+if Al>0
+    if p>0
+        disp('MATRIZ DEFINIDA POSITIVA');
+        B=inv(A)
+    else
+        disp('LA MATRIZ NO ES DEF. POSITIVA');
+    end
+end
+   
